@@ -11,7 +11,7 @@ function missingNumbers(arr, size) {
   }
 
   const missingBit = bitwise.map((b, i) => {
-    const bitwiseSize = i < Math.floor(size/30) ? 30 : (size-1) % 30;
+    const bitwiseSize = i < Math.floor(size/30) ? 30 : size % 30;
     const mask = (1 << bitwiseSize) - 1;
     // console.log('Missing bits', i, b, bitwiseSize, mask);
     return b ^ mask;
@@ -31,7 +31,7 @@ function missingNumbers(arr, size) {
 }
 
 const arr = [];
-for (let i=1; i<arrSize; i++) {
+for (let i=1; i<=arrSize; i++) {
   arr.push(i);
 }
 
