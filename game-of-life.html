@@ -2,9 +2,38 @@
 <html>
 <meta charset="UTF-8"></meta>
 <head>
+
+  <style type="text/css">
+    body {
+      background-color: black;
+    }
+
+    table {
+      border-spacing: 0px;
+    }
+    td {
+      border: 0.4px brown solid;
+      height: 10px;
+      width: 10px;
+    }
+    td.alive { 
+      background-color: aqua;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <table id="conway">
+    </table>
+  </div>
+
   <script type="text/javascript">
-    const boardSize = 20;
-    let gameSpeed = 2400;
+    const boardSize = 75;
+    let gameSpeed = 700;
+    let mousedown = false;
+    document.body.onmousedown = (e) => { e.preventDefault(); mousedown = true };
+    document.body.onmouseup = () => { mousedown = false };
 
     const boardState = [];
 
@@ -17,14 +46,8 @@
           const td = document.createElement('td');
           td.id = 'cell-' + i + '-' + j;
 
-          td.addEventListener('click', () => {
-            if (boardState[i][j] === ' ') {
-              boardState[i][j] = 'x';
-            } else {
-              boardState[i][j] = ' ';
-            }
-            recolor();
-          });
+          td.addEventListener('click', () => { paintCell(i, j) });
+          td.addEventListener('mouseover', () => { if (mousedown) { paintCell(i, j) }});
 
           tr.appendChild(td);
           boardState[i][j] = ' ';
@@ -73,6 +96,14 @@
 
       recolor();
     }
+    function paintCell (i, j) {
+      if (boardState[i][j] === ' ') {
+        boardState[i][j] = 'x';
+      } else {
+        boardState[i][j] = ' ';
+      }
+      recolor();
+    }
 
     function recolor() {
       for (let i=0; i<boardSize; i++) {
@@ -104,31 +135,7 @@
 
       return neighbors;
     }
-  </script>
 
-  <style type="text/css">
-    table {
-      border-spacing: 0px;
-    }
-    td {
-      border: 0.4px navy solid;
-      height: 44px;
-      width: 44px;
-    }
-    td.alive { 
-      background-color: navy;
-    }
-  </style>
-</head>
-<body>
-
-  <div>
-    <table id="conway">
-    </table>
-  </div>
-
-
-  <script type="text/javascript">
     generateBoard();    
 
     setInterval(() => {
