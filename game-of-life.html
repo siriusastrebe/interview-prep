@@ -6,43 +6,59 @@
   <style type="text/css">
     body {
       background-color: black;
+      color: white;
     }
 
     table {
       border-spacing: 0px;
     }
     td {
-      border: 0.4px brown solid;
-      height: 10px;
-      width: 10px;
+      border: 0.4px darkslategray solid;
+      height: 16px;
+      width: 16px;
+      padding: 0;
     }
     td.alive { 
       background-color: aqua;
+    }
+    #speed {
+      width: 34%;
+      height: 30px;
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
 <body>
 
-  <div>
+  <div class="center">
+    <input type="range" min="0" max="20" value="5" name="speed" id="speed">
     <table id="conway">
     </table>
   </div>
 
   <script type="text/javascript">
-    const boardSize = 75;
+    const boardWidth = 80;
+    const boardHeight = 50;
     let gameSpeed = 700;
     let mousedown = false;
-    document.body.onmousedown = (e) => { e.preventDefault(); mousedown = true };
+
+    document.getElementById('conway').onmousedown = (e) => { mousedown = true; e.preventDefault() }
     document.body.onmouseup = () => { mousedown = false };
+    document.getElementById('speed').oninput = function (e) {
+      gameSpeed = document.getElementById('speed').value * 100
+    }
 
     const boardState = [];
 
     function generateBoard() {
       const table = document.getElementById('conway');
-      for (let i=0; i<boardSize; i++) {
-        boardState[i] = [];
+      for (let j=0; j<boardHeight; j++) {
         const tr = document.createElement('tr');
-        for (let j=0; j<boardSize; j++) {
+        for (let i=0; i<boardWidth; i++) {
           const td = document.createElement('td');
           td.id = 'cell-' + i + '-' + j;
 
@@ -50,6 +66,10 @@
           td.addEventListener('mouseover', () => { if (mousedown) { paintCell(i, j) }});
 
           tr.appendChild(td);
+
+          if (boardState[i] === undefined) {
+            boardState[i] = [];
+          }
           boardState[i][j] = ' ';
         }
         table.appendChild(tr);
@@ -57,8 +77,8 @@
     }
 
     function evolve() {
-      for (let i=0; i<boardSize; i++) {
-        for (let j=0; j<boardSize; j++) {
+      for (let i=0; i<boardWidth; i++) {
+        for (let j=0; j<boardHeight; j++) {
           const neighbors = convolution(i, j);
           let living = 0;
           for (let k=0; k<neighbors.length; k++) {
@@ -84,8 +104,8 @@
         }
       }
 
-      for (let i=0; i<boardSize; i++) {
-        for (let j=0; j<boardSize; j++) {
+      for (let i=0; i<boardWidth; i++) {
+        for (let j=0; j<boardHeight; j++) {
           if (boardState[i][j] === 'b') {
             boardState[i][j] = 'x'; // the miracle of birth
           } else if (boardState[i][j] === 'd') {
@@ -95,6 +115,10 @@
       }
 
       recolor();
+
+      setTimeout(() => {
+        evolve();
+      }, gameSpeed);
     }
     function paintCell (i, j) {
       if (boardState[i][j] === ' ') {
@@ -106,8 +130,8 @@
     }
 
     function recolor() {
-      for (let i=0; i<boardSize; i++) {
-        for (let j=0; j<boardSize; j++) {
+      for (let i=0; i<boardWidth; i++) {
+        for (let j=0; j<boardHeight; j++) {
           const cell = document.getElementById('cell-' + i + '-' + j);
           if (boardState[i][j] === 'x') {
             cell.className = 'alive';
@@ -138,7 +162,7 @@
 
     generateBoard();    
 
-    setInterval(() => {
+    setTimeout(() => {
       evolve();
     }, gameSpeed);
   </script>
