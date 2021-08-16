@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"></meta>
+<head>
+  <script type="text/javascript">
+    const boardSize = 20;
+    let gameSpeed = 2400;
+
+    const boardState = [];
+
+    function generateBoard() {
+      const table = document.getElementById('conway');
+      for (let i=0; i<boardSize; i++) {
+        boardState[i] = [];
+        const tr = document.createElement('tr');
+        for (let j=0; j<boardSize; j++) {
+          const td = document.createElement('td');
+          td.id = 'cell-' + i + '-' + j;
+
+          td.addEventListener('click', () => {
+            if (boardState[i][j] === ' ') {
+              boardState[i][j] = 'x';
+            } else {
+              boardState[i][j] = ' ';
+            }
+            recolor();
+          });
+
+          tr.appendChild(td);
+          boardState[i][j] = ' ';
+        }
+        table.appendChild(tr);
+      }
+    }
+
+    function evolve() {
+      for (let i=0; i<boardSize; i++) {
+        for (let j=0; j<boardSize; j++) {
+          const neighbors = convolution(i, j);
+          let living = 0;
+          for (let k=0; k<neighbors.length; k++) {
+            const neighbor = boardState[neighbors[k][0]][neighbors[k][1]]
+            if (neighbor === 'x' || neighbor === 'd') {  // Dying cells are still alive in the time step we're interested in
+              living++;
+            }
+          }
+
+          if (boardState[i][j] === 'x') {
+            if (living === 0 || living === 1) {
+              boardState[i][j] = 'd'; // Underpopulation
+            } else if (living === 2 || living === 3) {
+              // Survival (maintain living state)
+            } else if (living >= 4) {
+              boardState[i][j] = 'd'; // Overpopulation
+            }
+          } else if (boardState[i][j] === ' ') {
+            if (living === 3) {
+              boardState[i][j] = 'b'; // Reproduction
+            }
+          }
+        }
+      }
+
+      for (let i=0; i<boardSize; i++) {
+        for (let j=0; j<boardSize; j++) {
+          if (boardState[i][j] === 'b') {
+            boardState[i][j] = 'x'; // the miracle of birth
+          } else if (boardState[i][j] === 'd') {
+            boardState[i][j] = ' '; // death, the inescapable fate of all life
+          }
+        }
+      }
+
+      recolor();
+    }
+
+    function recolor() {
+      for (let i=0; i<boardSize; i++) {
+        for (let j=0; j<boardSize; j++) {
+          const cell = document.getElementById('cell-' + i + '-' + j);
+          if (boardState[i][j] === 'x') {
+            cell.className = 'alive';
+          } else {
+            cell.className = '';
+          }
+        }
+      }
+    }
+
+    function convolution (i, j) {
+      const neighbors = [];
+
+      if (i > 0) neighbors.push([i-1,j]) // Left
+      if (j > 0) neighbors.push([i,j-1]) // Top
+
+      if (i < boardState.length-1) neighbors.push([i+1,j]) // Right
+      if (j < boardState[i].length-1) neighbors.push([i,j+1]) // Bottom
+
+      if (i > 0 && j > 0) neighbors.push([i-1,j-1]) // Top Left
+      if (i > 0 && j < boardState[i].length-1) neighbors.push([i-1,j+1]) // Bottom Left
+
+      if (i < boardState.length-1 && j > 0) neighbors.push([i+1,j-1]) // Top Right
+      if (i < boardState.length-1 && j < boardState[i].length-1) neighbors.push([i+1,j+1]) // Bottom Right
+
+      return neighbors;
+    }
+  </script>
+
+  <style type="text/css">
+    table {
+      border-spacing: 0px;
+    }
+    td {
+      border: 0.4px navy solid;
+      height: 44px;
+      width: 44px;
+    }
+    td.alive { 
+      background-color: navy;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <table id="conway">
+    </table>
+  </div>
+
+
+  <script type="text/javascript">
+    generateBoard();    
+
+    setInterval(() => {
+      evolve();
+    }, gameSpeed);
+  </script>
+</body>
+</html>
