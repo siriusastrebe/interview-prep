@@ -35,7 +35,7 @@
 <body>
 
   <div class="center">
-    <input type="range" min="0" max="20" value="5" name="speed" id="speed">
+    <input type="range" min="0" max="20" value="13" name="speed" id="speed">
     <table id="conway">
     </table>
   </div>
@@ -49,7 +49,7 @@
     document.getElementById('conway').onmousedown = (e) => { mousedown = true; e.preventDefault() }
     document.body.onmouseup = () => { mousedown = false };
     document.getElementById('speed').oninput = function (e) {
-      gameSpeed = document.getElementById('speed').value * 100
+      gameSpeed = (20 - document.getElementById('speed').value) * 100
     }
 
     const boardState = [];
