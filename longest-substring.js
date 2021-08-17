@@ -4,23 +4,31 @@ function longestSubstring(str) {
   let seen = {};
   let longestStart = 0;
   let longestEnd = 0;
+  let lastRepeat = 0;
 
   for (let i=0; i<str.length; i++) {
+    // console.log(longestStart, longestEnd, lastRepeat, i - lastRepeat);
+
     if (seen[str[i]] !== undefined) {
-      if (i - seen[str[i]] > longestEnd - longestStart) {
-        longestStart = seen[str[i]];
-        longestEnd = i-1;
-      }
+      lastRepeat = i;
+    }
+
+    if (i - lastRepeat > longestEnd - longestStart) {
+      longestStart = lastRepeat;
+      longestEnd = i;
     }
 
     seen[str[i]] = i;
   }
 
-  return str.slice(longestStart, longestEnd);
+  return str.slice(longestStart, longestEnd + 1);
 }
 
 const s1 = 'AbcdefghijklmnopAqrstuvwxyz';
 console.log('Longest substring of ', s1, longestSubstring(s1));
+
+const s11 = 'AbcdefghijkAlmnopqrstuvwxyz';
+console.log('Longest substring of ', s11, longestSubstring(s11));
 
 const s2 = 'abba';
 console.log('Longest substring of ', s2, longestSubstring(s2));
