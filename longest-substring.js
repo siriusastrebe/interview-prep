@@ -38,3 +38,6 @@ console.log('Longest substring of ', s3, longestSubstring(s3));
 
 const s4 = '';
 console.log('Longest substring of ', s4, longestSubstring(s4));
+
+const s5 = 'abcdefghijklm999nopqrstuvwxyz';
+console.log('Longest substring of ', s5, longestSubstring(s5));
