@@ -62,5 +62,15 @@ console.log(s, ' is prime: ', isPrime(s));
 s = 1227
 console.log(s, ' is prime: ', isPrime(s));
 
+s = 3607
+console.log(s, ' is prime: ', isPrime(s));
+
+s = 3803
+console.log(s, ' is prime: ', isPrime(s));
+
+s = 3805
+console.log(s, ' is prime: ', isPrime(s));
+
+
 s = 7919
 console.log(s, ' is prime: ', isPrime(s));

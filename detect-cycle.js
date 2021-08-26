@@ -1,7 +1,8 @@
 // How do you check if a given linked list contains a cycle? How do you find the starting node of the cycle?
 
 function hasCycle(list, next) {
-  // An old algorithm I learned in computer science. Can tell you if there is a cycle, but not where the cycle begins
+  // An old algorithm I learned in computer science. Tortise and Hare, or Floyd's Cycle Finding algorithm.
+  // Can tell you if there is a cycle, but not where the cycle begins
   // Expects a list and a next string for traversing to next
   if (next === undefined) next = 'next';
 
