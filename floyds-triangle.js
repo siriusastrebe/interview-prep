@@ -34,4 +34,4 @@ function printFloyd(rows) {
   });
 }
 
-printFloyd(50);
+printFloyd(40);
