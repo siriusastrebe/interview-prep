@@ -67,16 +67,26 @@ function decrement(accumulator, s, i) {
   return true;
 }
 
-addStrings('4', '7');
+let s1; let s2;
+s1 = '4';
+s2 = '7';
+console.log('adding strings', s1, s2, addStrings(s1, s2));
 
 
+s1 = '44';
+s2 = '75';
+console.log('adding strings', s1, s2, addStrings(s1, s2));
 
 
+s1 = '-44';
+s2 = '75';
+console.log('adding strings', s1, s2, addStrings(s1, s2));
 
 
+s1 = '4';
+s2 = '1';
+console.log('adding strings', s1, s2, addStrings(s1, s2));
 
-
-
-
-
-
+s1 = '-1';
+s2 = '-1';
+console.log('adding strings', s1, s2, addStrings(s1, s2));
