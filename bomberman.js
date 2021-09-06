@@ -60,3 +60,13 @@ arr = [[0, 1, 1, 1],
 console.log('Zeroing out all rows/columns that contain 0');
 console.log(JSON.parse(JSON.stringify(arr)));
 console.log(bomberman(arr));
+
+
+arr = [[0, 1, 1, 1],
+       [1, 1, 0, 1],
+       [1, 1, 1, 1],
+       [1, 1, 1, 0]];
+
+console.log('Zeroing out all rows/columns that contain 0');
+console.log(JSON.parse(JSON.stringify(arr)));
+console.log(bomberman(arr));
